@@ -105,6 +105,7 @@ class Config implements ArrayAccess
      *
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->config);
@@ -123,6 +124,7 @@ class Config implements ArrayAccess
      *
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->get($offset);
@@ -142,6 +144,7 @@ class Config implements ArrayAccess
      *
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
@@ -158,6 +161,7 @@ class Config implements ArrayAccess
      *
      * @since 5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->set($offset, null);
