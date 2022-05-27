@@ -5,12 +5,13 @@ namespace Hedeqiang\Yizhifu;
 use GuzzleHttp\Client;
 use Hedeqiang\Yizhifu\Support\Config;
 use GuzzleHttp\Psr7\ServerRequest;
+use Hedeqiang\Yizhifu\Traits\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Pay
 {
-
-    protected $config;
+    use Utils;
+    protected Config $config;
 
     protected $guzzleOptions = [];
 
@@ -58,6 +59,9 @@ class Pay
     }
 
     /**
+     * @param $path
+     * @param $params
+     * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request($path, $params)
@@ -65,41 +69,21 @@ class Pay
         $data = $this->getArr($params);
 
         $hmacSource = $this->buildJson($data);
-
         $sha1mac = sha1($hmacSource, true); //SHA1加密
 
-        $pubKey = file_get_contents($this->config->get('privateKey'));//私钥签名
-        $results = [];
-        $worked = openssl_pkcs12_read($pubKey, $results, '123456');
-        $rs = openssl_sign($sha1mac, $hmac, $results['pkey'], "md5");
-        $hmac = base64_encode($hmac);
+        $privateKey = $this->config->get('privateKey');
+        $password = $this->config->get('password');
+        $hmac = $this->rsaPrivateSign($sha1mac,$privateKey,$password);
 
         $hmacarr = [];
         $hmacarr["hmac"] = $hmac;
         $arr_t = (array_merge($params, $hmacarr)); //合并数组
 
         $json_str = json_encode($arr_t, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);  //将数组转成JSON
+        $rands = $this->getRandomStr();
+        $data = $this->aesEncrypt($rands, $json_str);
 
-        /*
-         * 生成16位随机数（AES秘钥）AES加密JSON数据串
-         */
-        $str1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
-        $randStr = str_shuffle($str1);//打乱字符串
-        $rands = substr($randStr, 0, 16);//16-bit random AES key
-
-        $screct_key = $rands;
-        $str = trim($json_str);
-        $str = $this->addPKCS7Padding($str);
-        $encrypt_str = openssl_encrypt($str, 'AES-128-ECB', $screct_key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING);
-        $data = base64_encode($encrypt_str);
-
-
-        $verifyKey4Server = file_get_contents($this->config->get('publicKey'));  //公钥加密AES
-        $pem = chunk_split(base64_encode($verifyKey4Server), 64, "\n");//转换为pem格式的公钥
-        $public_key = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
-        $pu_key = openssl_pkey_get_public($public_key);//这个函数可用来判断公钥是否是可用的
-        openssl_public_encrypt($rands, $encryptKey, $pu_key);//公钥加密
-        $encryptKey = base64_encode($encryptKey);
+        $encryptKey = $this->rsaPublicEncode($this->config->get('publicKey'),$rands);
 
         $response = $this->getHttpClient()->post($this->buildEndpoint($path), [
             'headers' => [
@@ -112,57 +96,29 @@ class Pay
         ]);
 
         $contents = json_decode($response->getBody()->getContents(), true);
-        $responsedata = [
-            "data"       => $contents['data'],
-            "encryptKey" => $response->getHeader('encryptKey')[0],
-//            "merchantId" => $response->getHeader('merchantId')[0]
-        ];
 
+        $encryptKey = $response->getHeader('encryptKey')[0];
+        $secret_key = $this->rsaPrivateDecode($encryptKey,$this->config->get('privateKey'),$this->config->get('password'));
 
-        $encryptKey = $responsedata['encryptKey'];
-        $pubKey = file_get_contents('client.pfx');
-        $results = [];
-        $worked = openssl_pkcs12_read($pubKey, $results, '123456');
-        $private_key = $results['pkey'];
-        $pi_key = openssl_pkey_get_private($private_key);//这个函数可用来判断私钥是否是可用的，可用返回资源id Resource id
-        openssl_private_decrypt(base64_decode($encryptKey), $decrypted, $pi_key);//私钥解密
-
-        $responsedatadata = $responsedata['data'];
-
-
-        $screct_key = $decrypted;
-        $encrypt_str = openssl_decrypt($responsedatadata, "AES-128-ECB", $screct_key);
-        $encrypt_str = preg_replace('/[\x00-\x1F]/', '', $encrypt_str);
-        $encrypt_str = json_decode($encrypt_str, true);
-
-        return $encrypt_str;
+        return $this->aesDecrypt($contents['data'], $secret_key);
     }
 
-
+    /**
+     * @return array|false
+     */
     public function handleNotify()
     {
         $request = $this->getCallbackParams();
-        $raw_post_data = $request->getBody()->getContents();
-        $responsedata = json_decode($raw_post_data, true);
-        $post = $responsedata;
+        $response = $request->getBody()->getContents();
+        $response = json_decode($response, true);
+        $post = $response;
         $post['encryptKey'] = $request->getHeader('encryptKey')[0];
         $post['merchantId'] = $request->getHeader('merchantId')[0];
 
         $encryptKey = $post['encryptKey'];
-        //return $encryptKey;
+        $decrypted = $this->rsaPrivateDecode($encryptKey,$this->config->get('privateKey'),$this->config->get('password'));
 
-        $pubKey = file_get_contents($this->config->get('privateKey'));
-        $results = array();
-        $worked = openssl_pkcs12_read($pubKey, $results, '123456');
-        $private_key = $results['pkey'];
-        $pi_key = openssl_pkey_get_private($private_key);//这个函数可用来判断私钥是否是可用的，可用返回资源id Resource id
-        openssl_private_decrypt(base64_decode($encryptKey), $decrypted, $pi_key);//私钥解密
-
-        $responsedatadata = $responsedata['data'];
-        $screct_key = $decrypted;
-        $encrypt_str = openssl_decrypt($responsedatadata, "AES-128-ECB", $screct_key);
-        $encrypt_str = preg_replace('/[\x00-\x1F]/', '', $encrypt_str);
-        $encrypt_str = json_decode($encrypt_str, true);
+        $encrypt_str = $this->aesDecrypt($response['data'],$decrypted);
 
         $encrypt_str = $this->clearBlank($encrypt_str);
         $hmac = $encrypt_str['hmac'];
@@ -171,100 +127,12 @@ class Pay
 
         $hmacSource = $this->buildJson($encrypt_str);
         $sha1mac = sha1($hmacSource, true);
-
         $verifyKeyPath = $this->config->get('publicKey');
-        $verifyKey4Server = file_get_contents($verifyKeyPath);
-        $pem = chunk_split(base64_encode($verifyKey4Server), 64, "\n");//转换为pem格式的公钥
-        $pem = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
-        $keyid = openssl_pkey_get_public($pem);
-
-        $verify = openssl_verify($sha1mac, base64_decode($hmac), $keyid, OPENSSL_ALGO_MD5);
-
+        $verify = $this->rsaPubilcSign($sha1mac,$verifyKeyPath,$hmac);
         if ($verify === 1) {
             return $encrypt_str;
         } else {
-            return "Fail";
-        }
-    }
-
-    protected function addPKCS7Padding($string, $blocksize = 16)
-    {
-        $len = strlen($string);
-        $pad = $blocksize - ($len % $blocksize);
-        $string .= str_repeat(chr($pad), $pad);
-        return $string;
-    }
-
-    /*
-    * 去除空值的元素
-    */
-    protected function clearBlank($arr)
-    {
-        return (array_filter($arr, function ($var) {
-            return ($var <> '');
-        }));
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildJson(array $data)
-    {
-        $hmacSource = '';
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                ksort($value);
-                $value = array_filter($value);
-                foreach ($value as $key2 => $value2) {
-                    if (is_object($value2)) {
-                        $value2 = array_filter((array)$value2);
-                        ksort($value2);
-                        foreach ($value2 as $oKey => $oValue) {
-                            $oValue .= '#';
-                            $hmacSource .= trim($oValue);
-                        }
-                    } elseif (is_array($value2)) {
-                        ksort($value2);
-                        foreach ($value2 as $key3 => $value3) {
-                            if (is_object($value3)) {
-                                $value3 = array_filter((array)$value3);
-                                ksort($value3);
-                                foreach ($value3 as $oKey => $oValue) {
-                                    $oValue .= '#';
-                                    $hmacSource .= trim($oValue);
-                                }
-                            } else {
-                                $value3 .= '#';
-                                $hmacSource .= trim($value3);
-                            }
-                        }
-                    } else {
-                        $value2 .= '#';
-                        $hmacSource .= trim($value2);
-                    }
-                }
-            } else {
-                $value .= '#';
-                $hmacSource .= trim($value);
-            }
-        }
-        return $hmacSource;
-    }
-
-    protected function array_remove_empty(&$arr, $trim = true)
-    {
-        foreach ($arr as $key => $value) {
-            if (is_array($value)) {
-                array_remove_empty($arr[$key]);
-            } else {
-                $value = trim($value);
-                if ($value == '') {
-                    unset($arr[$key]);
-                } elseif ($trim) {
-                    $arr[$key] = $value;
-                }
-            }
+            return false;
         }
     }
 
@@ -298,4 +166,6 @@ class Pay
     {
         return sprintf(self::ENDPOINT_TEMPLATE, $path);
     }
+
+
 }
