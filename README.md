@@ -18,6 +18,8 @@ $app = new Pay([
 ]);
 ```
 
+> 本 SDK 已经处理好 hmac 签名，用户不需要传递此参数
+
 ### 立即下单
 ```shell
 $url = 'onlinePay/order';
@@ -113,6 +115,18 @@ array (
   'totalRefundCount' => '0',
 ) 
 ```
+
+### 查询订单
+```shell
+$url = "onlinePay/query";
+$params = [
+    'merchantId' => '890000593',
+    'requestId' => '1653659465'
+];
+
+$sreult = $app->request($url,$params);
+```
+
 
 ## 在 Laravel 中使用
 #### 发布配置文件
