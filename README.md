@@ -1,5 +1,13 @@
 # 首信易支付 SDK for PHP
 
+[![Latest Stable Version](https://poser.pugx.org/hedeqiang/yizhifu/v)](//packagist.org/packages/hedeqiang/yizhifu)
+[![Total Downloads](https://poser.pugx.org/hedeqiang/yizhifu/downloads)](//packagist.org/packages/hedeqiang/yizhifu)
+[![Latest Unstable Version](https://poser.pugx.org/hedeqiang/yizhifu/v/unstable)](//packagist.org/packages/hedeqiang/yizhifu)
+[![License](https://poser.pugx.org/hedeqiang/yizhifu/license)](//packagist.org/packages/hedeqiang/yizhifu)
+
+
+参考文档 [首信易支付](https://demo.yizhifubj.com/Development/showdoc-master/web/#/5?page_id=242)
+
 ## Installing
 
 ```shell
@@ -11,8 +19,8 @@ $ composer require hedeqiang/yizhifu -vvv
 require __DIR__ .'/vendor/autoload.php';
 use Hedeqiang\Yizhifu\Pay;
 $app = new Pay([
-    'privateKey' => 'client.pfx',
-    'publicKey'  => 'test.cer',
+    'privateKey' => '/parth/client.pfx',
+    'publicKey'  => 'path/test.cer',
     'merchantId' => '890000593',
     'password'   => '123456',
 ]);
