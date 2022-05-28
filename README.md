@@ -33,14 +33,14 @@ $app = new Pay([
 $url = 'onlinePay/order';
 
 $parmas = [
-    "callbackUrl" =>"https://demo.5upay.com/sdk/callback",
-    "clientIp" =>"10.101.10.10",
-    "hmac" =>null,
-    "merchantId" =>"890000593",
-    "notifyUrl" =>"https://demo.5upay.com/sdk/onlinepay/notify",
-    "orderAmount" =>"1",
-    "orderCurrency" =>"CNY",
-    "payer" => new \stdClass(),
+    "callbackUrl"    => "https://demo.5upay.com/sdk/callback",
+    "clientIp"       => "10.101.10.10",
+    "hmac"           => null,
+    "merchantId"     => "890000593",
+    "notifyUrl"      => "https://demo.5upay.com/sdk/onlinepay/notify",
+    "orderAmount"    => "1",
+    "orderCurrency"  => "CNY",
+    "payer"          => new \stdClass(),
 //    "payer" => [
 //        "bankCardNum" =>"6217000xxxxx",
 //        "email" =>"laravel_code@163.com",
@@ -50,18 +50,18 @@ $parmas = [
 //        "phoneNum" =>"xxx"
 //    ],
     // "paymentModeCode" =>"BANK_CARD-B2C-ICBC-P2P",
-    "productDetails" =>[
+    "productDetails" => [
         [
-            "amount" =>"1",
-            "description" =>"黑色64G",
-            "name" =>"IPHONE6",
-            "quantity" =>"100",
-            "receiver" =>"张三"
+            "amount"      => "1",
+            "description" => "黑色64G",
+            "name"        => "IPHONE6",
+            "quantity"    => "100",
+            "receiver"    => "张三"
         ]
     ],
-    "remark" =>"备注",
-    "requestId" =>time(),
-    "timeout" =>"10"
+    "remark"         => "备注",
+    "requestId"      => time(),
+    "timeout"        => "10"
 ];
 $app->request($url,$params)
 ```
