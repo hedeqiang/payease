@@ -28,31 +28,6 @@ class Pay
         return new Client($this->guzzleOptions);
     }
 
-    /**
-     * 按照 键名 对关联数组进行升序排序：
-     * @param $params
-     * @return array
-     */
-    protected function getArr($params): array
-    {
-        $data = [];
-        foreach ($params as $k => $var) {
-            if (is_scalar($var) && $var !== '') {//如果给出的变量参数 var 是一个标量，is_scalar() 返回 TRUE，否则返回 FALSE。标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。
-                $data[$k] = $var;
-            } elseif (is_object($var)) {
-                $data[$k] = array_filter((array)$var);
-            } elseif (is_array($var)) {
-                $data[$k] = array_filter($var);
-            }
-            if (empty($data[$k])) {
-                unset($data[$k]);
-            }
-        }
-
-        ksort($data);
-        return $data;
-    }
-
     protected function setGuzzleOptions(array $options)
     {
         $this->guzzleOptions = $options;
@@ -66,6 +41,9 @@ class Pay
      */
     public function request($path, $params)
     {
+        if (empty($params['merchantId'])){
+            $params['merchantId'] = $this->config->get('merchantId');
+        }
         $data = $this->getArr($params);
 
         $hmacSource = $this->buildJson($data);
@@ -134,6 +112,31 @@ class Pay
         } else {
             return false;
         }
+    }
+    
+    /**
+     * 按照 键名 对关联数组进行升序排序：
+     * @param $params
+     * @return array
+     */
+    protected function getArr($params): array
+    {
+        $data = [];
+        foreach ($params as $k => $var) {
+            if (is_scalar($var) && $var !== '') {//如果给出的变量参数 var 是一个标量，is_scalar() 返回 TRUE，否则返回 FALSE。标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。
+                $data[$k] = $var;
+            } elseif (is_object($var)) {
+                $data[$k] = array_filter((array)$var);
+            } elseif (is_array($var)) {
+                $data[$k] = array_filter($var);
+            }
+            if (empty($data[$k])) {
+                unset($data[$k]);
+            }
+        }
+
+        ksort($data);
+        return $data;
     }
 
 
