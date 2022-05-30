@@ -26,7 +26,7 @@ $app = new Pay([
 ]);
 ```
 
-> 本 SDK 已经处理好 hmac 签名，用户不需要传递此参数
+> 本 SDK 已经处理好 hmac 签名，用户不需要传递此参数，`merchantId` 可传可不传
 
 ### 立即下单
 ```shell
@@ -36,7 +36,6 @@ $parmas = [
     "callbackUrl"    => "https://demo.5upay.com/sdk/callback",
     "clientIp"       => "10.101.10.10",
     "hmac"           => null,
-    "merchantId"     => "890000593",
     "notifyUrl"      => "https://demo.5upay.com/sdk/onlinepay/notify",
     "orderAmount"    => "1",
     "orderCurrency"  => "CNY",
@@ -140,7 +139,6 @@ $sreult = $app->request($url,$params);
 $uri = 'serviceprovider/declaration/declare';
 
 $params = [
-    'merchantId'          => '890000593',
     'requestId'           => time(),
     'operationType'       => 'CREATE',
     'notifyUrl'           => 'https://www.5upay.com/callback.action?test=test',
