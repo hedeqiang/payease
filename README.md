@@ -135,6 +135,84 @@ $params = [
 $sreult = $app->request($url,$params);
 ```
 
+### 二级商户入网
+```php
+$uri = 'serviceprovider/declaration/declare';
+
+$params = [
+    'merchantId'          => '890000593',
+    'requestId'           => time(),
+    'operationType'       => 'CREATE',
+    'notifyUrl'           => 'https://www.5upay.com/callback.action?test=test',
+    'extendedParameters'  => 'autoReview:FALSE,sendActiveEmail:TRUE',
+    'baseInfo'            => [
+        'signedType'              => 'BY_SPLIT_BILL',
+        'signedName'              => 'xxx',  //签约名
+        'registerRole'            => 'NATURAL_PERSON',
+        'signedShorthand'         => 'xxx',
+        'businessAddressProvince' => '110000', //经营地址省
+        'businessAddressCity'     => '110100', //经营地址市
+        'businessAddressArea'     => '110106', // 经营地址区
+        'businessAddress'         => '北京市', //经营地址
+        'contactName'             => 'xxx', // 联系人姓名
+        'contactEmail'            => 'xxx@163.com', //联系人邮箱
+        'contactPhone'            => 'xxx',// 联系人电话
+        //'businessClassification'  => 'INTERNAL_TESTING_01', //业务分类
+        'desireAuth'              => 'DESIRE_MOBILEINFO', //开户意愿核实类型
+
+    ],
+    'bankCardInfo'        => [
+        'accountName'      => 'xxx', // 开户名称
+        'bankCardNo'       => 'xxx',
+        'provinceCode'     => '130000',
+        'cityCode'         => '130100',
+        'liquidationType'  => 'SETTLE', //清算方式
+        'accountType'      => 'PRIVATE', //结算银行卡属性
+        'withdrawRateType' => 'SINGLE',
+    ],
+    'desireAuthInfo'      => [
+        'legalPersonName'    => 'xxx', //法人姓名
+        'legalPersonIdNo'    => 'xxx', // 法人身份证号
+        'legalPersonPhoneNo' => 'xxx', // 法人手机号
+    ],
+    'certificateInfo'     => [
+        'legalPersonName'         => 'xxx',
+        'profession'              => '1',// 法人职业
+        'legalPersonIdType'       => 'IDCARD',
+        'legalPersonIdNo'         => 'xxx',
+        'legalIdCardProsPath'     => '/serviceprovider/TestData/111.jpg', //法人证件人像面路径
+        'legalIdCardConsPath'     => '/serviceprovider/TestData/111.jpg', //法人证件国徽面路径
+        'holdingIdCardPath'       => '/serviceprovider/TestData/111.jpg', //法人手持证件照
+        'legalPersonBankCardPath' => '/serviceprovider/TestData/111.jpg', //法人银行卡图影印件路径
+        'legalPersonPhone'        => 'xxx'
+    ],
+    'certificateContacts' => [
+        [
+            'name'   => 'xxx',
+            'idType' => 'IDCARD',
+            'idNo'   => 'xxx',
+        ]
+    ],
+    'contractInfo'        => [
+//                'receiverAddress' => 'c',
+//                'receiverName'    => 'xxx',
+//                'receiverPhone'   => 'xxx',
+        'contractType'    => 'ELECTRON',
+    ],
+//            'paymentProfiles'    => [
+//                [
+//                    'paymentMode' => 'B2C',
+//                    'feeType'     => 'SINGLE',
+//                ]
+//
+//            ],
+//
+
+];
+
+return $app->request($uri, $params);
+```
+
 
 ## 在 Laravel 中使用
 #### 发布配置文件
