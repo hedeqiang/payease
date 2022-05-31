@@ -68,7 +68,7 @@ class Pay
                 'Content-Type' => 'application/vnd.5upay-v3.0+json',
                 'encryptKey'   => $encryptKey,
                 'merchantId'   => $this->config->get('merchantId'),
-                'requestId'    => time() . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT),
+                'requestId'    => $params['requestId'],
             ],
             'body'    => $data
         ]);
