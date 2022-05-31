@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "guzzlehttp/guzzle": "^7.4",
+        "guzzlehttp/guzzle": "^6.3|^7.4",
         "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
