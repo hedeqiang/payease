@@ -9,6 +9,12 @@
 
 参考文档 [首信易支付](https://demo.yizhifubj.com/Development/showdoc-master/web/#/5?page_id=242) 、[快捷支付](https://open.payeasenet.com/payease/html/Product/MoblieProduct/MobileBANK_CARD-EXPRESS.html)
 
+## 环境需求
+
+- PHP >= 7.1
+- [Composer](https://getcomposer.org/) >= 2.0
+
+
 ## Installing
 
 ```shell
