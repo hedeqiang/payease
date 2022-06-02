@@ -64,12 +64,7 @@ class Pay
         $encryptKey = $this->rsaPublicEncode($this->config->get('publicKey'),$rands);
 
         $response = $this->getHttpClient()->post($this->buildEndpoint($path), [
-            'headers' => [
-                'Content-Type' => 'application/vnd.5upay-v3.0+json',
-                'encryptKey'   => $encryptKey,
-                'merchantId'   => $this->config->get('merchantId'),
-                'requestId'    => $params['requestId'],
-            ],
+            'headers' => $this->getHeaders($params,$encryptKey),
             'body'    => $data
         ]);
 
@@ -111,6 +106,24 @@ class Pay
             return $encrypt_str;
         } else {
             return false;
+        }
+    }
+    
+    protected function getHeaders($params,$encryptKey)
+    {
+        if (empty($params['requestId'])) {
+            return [
+                'Content-Type' => 'application/vnd.5upay-v3.0+json',
+                'encryptKey'   => $encryptKey,
+                'merchantId'   => $this->config->get('merchantId'),
+            ];
+        }else{
+            return [
+                'Content-Type' => 'application/vnd.5upay-v3.0+json',
+                'encryptKey'   => $encryptKey,
+                'merchantId'   => $this->config->get('merchantId'),
+                'requestId'    => $params['requestId'],
+            ];
         }
     }
     
