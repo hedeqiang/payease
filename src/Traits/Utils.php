@@ -145,7 +145,7 @@ trait Utils
      * @param $data
      * @param $secret_key
      *
-     * @return string
+     * @return array
      */
     protected function aesDecrypt($data, $secret_key)
     {
