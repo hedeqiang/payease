@@ -21,9 +21,6 @@ class Pay implements PayInterface
 {
     use Utils;
 
-    /**
-     * @var Config
-     */
     protected Config $config;
 
     protected $guzzleOptions = [];
@@ -48,10 +45,10 @@ class Pay implements PayInterface
     /**
      * @param $path
      * @param $params
-     * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($path, $params):array
+    public function request($path, $params): array
     {
         if (empty($params['merchantId'])) {
             $params['merchantId'] = $this->config->get('merchantId');
@@ -91,7 +88,7 @@ class Pay implements PayInterface
     /**
      * @return array|false
      */
-    public function handleNotify():array
+    public function handleNotify(): array
     {
         $request = $this->getCallbackParams();
         $response = $request->getBody()->getContents();
@@ -143,7 +140,6 @@ class Pay implements PayInterface
      * 按照 键名 对关联数组进行升序排序：.
      *
      * @param $params
-     * @return array
      */
     protected function getArr($params): array
     {
