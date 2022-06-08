@@ -259,6 +259,22 @@ public function notify(Request $request)
 }
 ```
 
+## 在 Hyperf 中使用
+#### 发布配置文件
+```php
+php bin/hyperf.php vendor:publish hedeqiang/yizhifu
+```
+
+#### 使用
+```shell
+<?php
+
+use Hedeqiang\Yizhifu\Pay;
+use Hyperf\Utils\ApplicationContext;
+
+ApplicationContext::getContainer()->get(Pay::class)->request($uri,$parmas);
+```
+
 ## Project supported by JetBrains
 
 Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
