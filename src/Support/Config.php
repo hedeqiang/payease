@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the hedeqiang/yizhifu.
+ *
+ * (c) hedeqiang <laravel_code@163.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hedeqiang\Yizhifu\Support;
 
 use ArrayAccess;
@@ -26,8 +35,7 @@ class Config implements ArrayAccess
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -53,10 +61,7 @@ class Config implements ArrayAccess
     /**
      * Set an array item to a given value using "dot" notation.
      *
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return array
+     * @param mixed $value
      */
     public function set(string $key, $value): array
     {
@@ -79,10 +84,6 @@ class Config implements ArrayAccess
 
     /**
      * Determine if the given configuration value exists.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     public function has(string $key): bool
     {
