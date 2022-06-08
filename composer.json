@@ -32,6 +32,9 @@
                 "Hedeqiang\\Yizhifu\\ServiceProvider"
             ]
         },
+        "hyperf": {
+            "config": "Hedeqiang\\Yizhifu\\ConfigProvider"
+        },
         "hooks": {
             "pre-commit": [
                 "composer check-style",

@@ -17,9 +17,13 @@ use GuzzleHttp\Psr7\ServerRequest;
 use Hedeqiang\Yizhifu\Traits\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Pay
+class Pay implements PayInterface
 {
     use Utils;
+
+    /**
+     * @var Config
+     */
     protected Config $config;
 
     protected $guzzleOptions = [];
@@ -44,12 +48,10 @@ class Pay
     /**
      * @param $path
      * @param $params
-     *
-     * @return string
-     *
+     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($path, $params)
+    public function request($path, $params):array
     {
         if (empty($params['merchantId'])) {
             $params['merchantId'] = $this->config->get('merchantId');
@@ -89,7 +91,7 @@ class Pay
     /**
      * @return array|false
      */
-    public function handleNotify()
+    public function handleNotify():array
     {
         $request = $this->getCallbackParams();
         $response = $request->getBody()->getContents();
@@ -141,6 +143,7 @@ class Pay
      * 按照 键名 对关联数组进行升序排序：.
      *
      * @param $params
+     * @return array
      */
     protected function getArr($params): array
     {

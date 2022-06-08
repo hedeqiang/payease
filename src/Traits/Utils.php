@@ -183,7 +183,7 @@ trait Utils
      *
      * @return string
      */
-    public function rsaPrivateSign($data, $path, $password)
+    protected function rsaPrivateSign($data, $path, $password)
     {
         $pubKey = file_get_contents($path);
         $results = [];
