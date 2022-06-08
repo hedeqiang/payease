@@ -46,7 +46,6 @@ class Pay implements PayInterface
      * @param $path
      * @param $params
      *
-     * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request($path, $params): array
@@ -141,7 +140,6 @@ class Pay implements PayInterface
      * 按照 键名 对关联数组进行升序排序：.
      *
      * @param $params
-     * @return array
      */
     protected function getArr($params): array
     {
