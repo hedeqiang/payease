@@ -226,6 +226,7 @@ php artisan vendor:publish --tag=yizhifu
 or 
 php artisan vendor:publish --provider="Hedeqiang\Yizhifu\ServiceProvider"
 ```
+
 ##### 编写 .env 文件
 ```
 YIZHIFU_PRIVATIVE_KEY=
@@ -237,6 +238,7 @@ YIZHIFU_PASSWORD=
 ### 使用
 
 #### 服务名访问
+
 ```php
 public function index()
 {
@@ -263,6 +265,14 @@ public function notify(Request $request)
 #### 发布配置文件
 ```php
 php bin/hyperf.php vendor:publish hedeqiang/yizhifu
+```
+
+##### 编写 .env 文件
+```
+YIZHIFU_PRIVATIVE_KEY=
+YIZHIFU_PUBLIC_KEY=
+YIZHIFU_MERCHAN_ID=
+YIZHIFU_PASSWORD=
 ```
 
 #### 使用
