@@ -37,7 +37,7 @@ $app = new Pay([
 
 ### 立即下单
 ```shell
-$url = 'onlinePay/order';
+$uri = 'onlinePay/order';
 
 $parmas = [
     "callbackUrl"    => "https://demo.5upay.com/sdk/callback",
@@ -69,7 +69,7 @@ $parmas = [
     "requestId"      => time(),
     "timeout"        => "10"
 ];
-$app->request($url,$params)
+$app->request($uri,$params)
 ```
 #### 立即下单返回示例
 > 客户端 使用 redirectUrl 发起 get 请求即可发起收银台支付
@@ -132,13 +132,13 @@ array (
 
 ### 查询订单
 ```shell
-$url = "onlinePay/query";
+$uri = "onlinePay/query";
 $params = [
     'merchantId' => '890000593',
     'requestId' => '1653659465'
 ];
 
-$sreult = $app->request($url,$params);
+$sreult = $app->request($uri,$params);
 ```
 
 ### 二级商户入网
@@ -242,7 +242,7 @@ PAYEASE_PASSWORD=
 ```php
 public function index()
 {
-    return app('pay')->request($url,$params);
+    return app('pay')->request($uri,$params);
 }
 ```
 
@@ -253,7 +253,7 @@ use Hedeqiang\PayEase\Facades\Pay;
 
 public function index()
 {
-   return Pay::pay()->request($url,$params)
+   return Pay::pay()->request($uri,$params)
 }
 
 public function notify(Request $request)
@@ -283,7 +283,11 @@ PAYEASE_PASSWORD=
 use Hedeqiang\PayEase\Pay;
 use Hyperf\Utils\ApplicationContext;
 
-ApplicationContext::getContainer()->get(Pay::class)->request($uri,$parmas);
+// 请求
+response = ApplicationContext::getContainer()->get(Pay::class)->request($uri,$parmas);
+
+// 回调
+$response = ApplicationContext::getContainer()->get(Pay::class)->handleNotify();
 ```
 
 ## Project supported by JetBrains
