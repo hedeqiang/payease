@@ -11,8 +11,7 @@
     "require": {
         "php": ">=7.1",
         "guzzlehttp/guzzle": "^6.3|^7.4",
-        "symfony/psr-http-message-bridge": "^1.0|^2.1",
-        "hedeqiang/yizhifu": "dev-main"
+        "symfony/psr-http-message-bridge": "^1.0|^2.1"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
