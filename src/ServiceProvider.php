@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/yizhifu.
+ * This file is part of the hedeqiang/payease.
  *
  * (c) hedeqiang <laravel_code@163.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Hedeqiang\Yizhifu;
+namespace Hedeqiang\PayEase;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -18,21 +18,21 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/Config/yizhifu.php' => config_path('yizhifu.php'),
-        ], 'yizhifu');
+            __DIR__ . '/Config/payease.php' => config_path('payease.php'),
+        ], 'payease');
     }
 
     public function register()
     {
         $this->app->singleton(Pay::class, function () {
-            return new Pay(config('yizhifu'));
+            return new Pay(config('payease'));
         });
 
-        $this->app->alias(Pay::class, 'yizhifu');
+        $this->app->alias(Pay::class, 'pay');
     }
 
     public function provides(): array
     {
-        return ['yizhifu'];
+        return ['pay'];
     }
 }

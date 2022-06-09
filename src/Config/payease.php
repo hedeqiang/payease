@@ -9,11 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Hedeqiang\PayEase;
-
-interface PayInterface
-{
-    public function request($path, $params): array;
-
-    public function handleNotify(): array;
-}
+return [
+    'privateKey' => env('PAYEASE_PRIVATIVE_KEY'),
+    'publicKey' => env('PAYEASE_PUBLIC_KEY'),
+    'merchantId' => env('PAYEASE_MERCHAN_ID'),
+    'password' => env('PAYEASE_PASSWORD'),
+];

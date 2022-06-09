@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/yizhifu.
+ * This file is part of the hedeqiang/payease.
  *
  * (c) hedeqiang <laravel_code@163.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Hedeqiang\Yizhifu\Traits;
+namespace Hedeqiang\PayEase\Traits;
 
 trait Utils
 {

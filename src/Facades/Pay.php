@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/yizhifu.
+ * This file is part of the hedeqiang/payease.
  *
  * (c) hedeqiang <laravel_code@163.com>
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Hedeqiang\Yizhifu\Facades;
+namespace Hedeqiang\PayEase\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -22,16 +22,16 @@ class Pay extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'yizhifu';
+        return 'pay';
     }
 
     /**
      * Return the facade accessor.
      *
-     * @return \Hedeqiang\Yizhifu\Pay
+     * @return \Hedeqiang\PayEase\Pay
      */
     public static function pay()
     {
-        return app('yizhifu');
+        return app('pay');
     }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "hedeqiang/yizhifu",
+    "name": "hedeqiang/payease",
     "description": "首信易支付 SDK for PHP",
     "license": "MIT",
     "authors": [
@@ -11,7 +11,8 @@
     "require": {
         "php": ">=7.1",
         "guzzlehttp/guzzle": "^6.3|^7.4",
-        "symfony/psr-http-message-bridge": "^1.0|^2.1"
+        "symfony/psr-http-message-bridge": "^1.0|^2.1",
+        "hedeqiang/yizhifu": "dev-main"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
@@ -23,17 +24,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Hedeqiang\\Yizhifu\\": "src"
+            "Hedeqiang\\PayEase\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Hedeqiang\\Yizhifu\\ServiceProvider"
+                "Hedeqiang\\PayEase\\ServiceProvider"
             ]
         },
         "hyperf": {
-            "config": "Hedeqiang\\Yizhifu\\ConfigProvider"
+            "config": "Hedeqiang\\PayEase\\ConfigProvider"
         },
         "hooks": {
             "pre-commit": [

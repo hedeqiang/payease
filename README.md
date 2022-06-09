@@ -1,10 +1,10 @@
 # 首信易支付 SDK for PHP
 
-[![Latest Stable Version](https://poser.pugx.org/hedeqiang/yizhifu/v)](//packagist.org/packages/hedeqiang/yizhifu)
-[![Total Downloads](https://poser.pugx.org/hedeqiang/yizhifu/downloads)](//packagist.org/packages/hedeqiang/yizhifu)
-[![Latest Unstable Version](https://poser.pugx.org/hedeqiang/yizhifu/v/unstable)](//packagist.org/packages/hedeqiang/yizhifu)
-[![License](https://poser.pugx.org/hedeqiang/yizhifu/license)](//packagist.org/packages/hedeqiang/yizhifu)
-[![Tests](https://github.com/hedeqiang/yizhifu/actions/workflows/test.yml/badge.svg)](https://github.com/hedeqiang/yizhifu/actions/workflows/test.yml)
+[![Latest Stable Version](https://poser.pugx.org/hedeqiang/payease/v)](//packagist.org/packages/hedeqiang/payease)
+[![Total Downloads](https://poser.pugx.org/hedeqiang/payease/downloads)](//packagist.org/packages/hedeqiang/payease)
+[![Latest Unstable Version](https://poser.pugx.org/hedeqiang/payease/v/unstable)](//packagist.org/packages/hedeqiang/payease)
+[![License](https://poser.pugx.org/hedeqiang/payease/license)](//packagist.org/packages/hedeqiang/payease)
+[![Tests](https://github.com/hedeqiang/payease/actions/workflows/test.yml/badge.svg)](https://github.com/hedeqiang/payease/actions/workflows/test.yml)
 
 
 参考文档 [首信易支付](https://demo.yizhifubj.com/Development/showdoc-master/web/#/5?page_id=242) 、[快捷支付](https://open.payeasenet.com/payease/html/Product/MoblieProduct/MobileBANK_CARD-EXPRESS.html)
@@ -18,13 +18,13 @@
 ## Installing
 
 ```shell
-$ composer require hedeqiang/yizhifu -vvv
+$ composer require hedeqiang/payease -vvv
 ```
 
 ## Usage
 ```shell
 require __DIR__ .'/vendor/autoload.php';
-use Hedeqiang\Yizhifu\Pay;
+use Hedeqiang\PayEase\Pay;
 $app = new Pay([
     'privateKey' => '/parth/client.pfx',
     'publicKey'  => 'path/test.cer',
@@ -222,17 +222,17 @@ return $app->request($uri, $params);
 ## 在 Laravel 中使用
 #### 发布配置文件
 ```php
-php artisan vendor:publish --tag=yizhifu
+php artisan vendor:publish --tag=payease
 or 
-php artisan vendor:publish --provider="Hedeqiang\Yizhifu\ServiceProvider"
+php artisan vendor:publish --provider="Hedeqiang\PayEase\ServiceProvider"
 ```
 
 ##### 编写 .env 文件
 ```
-YIZHIFU_PRIVATIVE_KEY=
-YIZHIFU_PUBLIC_KEY=
-YIZHIFU_MERCHAN_ID=
-YIZHIFU_PASSWORD=
+PAYEASE_PRIVATIVE_KEY=
+PAYEASE_PUBLIC_KEY=
+PAYEASE_MERCHAN_ID=
+PAYEASE_PASSWORD=
 ```
 
 ### 使用
@@ -242,13 +242,14 @@ YIZHIFU_PASSWORD=
 ```php
 public function index()
 {
-    return app('yizhifu')->request($url,$params);
+    return app('pay')->request($url,$params);
 }
 ```
 
 #### Facades 门面使用(可以提示)
+
 ```php
-use Hedeqiang\Yizhifu\Facades\Pay;
+use Hedeqiang\PayEase\Facades\Pay;
 
 public function index()
 {
@@ -264,22 +265,22 @@ public function notify(Request $request)
 ## 在 Hyperf 中使用
 #### 发布配置文件
 ```php
-php bin/hyperf.php vendor:publish hedeqiang/yizhifu
+php bin/hyperf.php vendor:publish hedeqiang/payease
 ```
 
 ##### 编写 .env 文件
 ```
-YIZHIFU_PRIVATIVE_KEY=
-YIZHIFU_PUBLIC_KEY=
-YIZHIFU_MERCHAN_ID=
-YIZHIFU_PASSWORD=
+PAYEASE_PRIVATIVE_KEY=
+PAYEASE_PUBLIC_KEY=
+PAYEASE_MERCHAN_ID=
+PAYEASE_PASSWORD=
 ```
 
 #### 使用
 ```shell
 <?php
 
-use Hedeqiang\Yizhifu\Pay;
+use Hedeqiang\PayEase\Pay;
 use Hyperf\Utils\ApplicationContext;
 
 ApplicationContext::getContainer()->get(Pay::class)->request($uri,$parmas);
@@ -296,8 +297,8 @@ Many thanks to Jetbrains for kindly providing a license for me to work on this a
 
 You can contribute in one of three ways:
 
-1. File bug reports using the [issue tracker](https://github.com/hedeqiang/yizhifu/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/hedeqiang/yizhifu/issues).
+1. File bug reports using the [issue tracker](https://github.com/hedeqiang/payease/issues).
+2. Answer questions or fix bugs on the [issue tracker](https://github.com/hedeqiang/payease/issues).
 3. Contribute new features or update the wiki.
 
 _The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._

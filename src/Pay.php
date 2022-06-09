@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the hedeqiang/yizhifu.
+ * This file is part of the hedeqiang/payease.
  *
  * (c) hedeqiang <laravel_code@163.com>
  *
@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Hedeqiang\Yizhifu;
+namespace Hedeqiang\PayEase;
 
 use GuzzleHttp\Client;
-use Hedeqiang\Yizhifu\Support\Config;
+use Hedeqiang\PayEase\Support\Config;
 use GuzzleHttp\Psr7\ServerRequest;
-use Hedeqiang\Yizhifu\Traits\Utils;
+use Hedeqiang\PayEase\Traits\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Pay implements PayInterface
@@ -25,7 +25,7 @@ class Pay implements PayInterface
 
     protected $guzzleOptions = [];
 
-    const ENDPOINT_TEMPLATE = 'https://apis.5upay.com/%s';
+    public const ENDPOINT_TEMPLATE = 'https://apis.5upay.com/%s';
 
     public function __construct(array $config)
     {
