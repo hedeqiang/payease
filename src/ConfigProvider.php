@@ -28,7 +28,7 @@ class ConfigProvider
                 [
                     'id' => 'config',
                     'description' => 'The config for payease.',
-                    'source' => __DIR__ . '/Config/payease.php',
+                    'source' => __DIR__.'/Config/payease.php',
                     'destination' => BASE_PATH.'/config/autoload/payease.php',
                 ],
             ],

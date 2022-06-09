@@ -18,7 +18,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/Config/payease.php' => config_path('payease.php'),
+            __DIR__.'/Config/payease.php' => config_path('payease.php'),
         ], 'payease');
     }
 
