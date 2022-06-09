@@ -1,5 +1,6 @@
 # 首信易支付 SDK for PHP
 
+[![PHP Version Require](http://poser.pugx.org/hedeqiang/payease/require/php)](https://packagist.org/packages/hedeqiang/payease)
 [![Latest Stable Version](https://poser.pugx.org/hedeqiang/payease/v)](//packagist.org/packages/hedeqiang/payease)
 [![Total Downloads](https://poser.pugx.org/hedeqiang/payease/downloads)](//packagist.org/packages/hedeqiang/payease)
 [![Latest Unstable Version](https://poser.pugx.org/hedeqiang/payease/v/unstable)](//packagist.org/packages/hedeqiang/payease)
