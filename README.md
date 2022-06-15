@@ -29,7 +29,7 @@ require __DIR__ .'/vendor/autoload.php';
 use Hedeqiang\PayEase\Pay;
 $app = new Pay([
     'privateKey' => '/parth/client.pfx',
-    'publicKey'  => 'path/test.cer',
+    'publicKey'  => 'path/test.cer',  // 注意： 此公钥为首信易的公钥、并非上传到商户后台的公钥！！！
     'merchantId' => '890000593',
     'password'   => '123456',
 ]);
