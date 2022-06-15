@@ -313,6 +313,9 @@ $response = ApplicationContext::getContainer()->get(Pay::class)->handleNotify();
 
 #### 使用
 ```php
+
+Yii::$app->response->format = Response::FORMAT_JSON;
+
 // 请求
 $results = Yii::$app->pay->getPay()->request($uri,$params);
 // 回调
