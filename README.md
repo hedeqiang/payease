@@ -40,7 +40,7 @@ $app = new Pay([
 ```shell
 $uri = 'onlinePay/order';
 
-$parmas = [
+$params = [
     "callbackUrl"    => "https://demo.5upay.com/sdk/callback",
     "clientIp"       => "10.101.10.10",
     "hmac"           => null,
@@ -289,6 +289,33 @@ response = ApplicationContext::getContainer()->get(Pay::class)->request($uri,$pa
 
 // 回调
 $response = ApplicationContext::getContainer()->get(Pay::class)->handleNotify();
+```
+
+## 在 Yii2 中使用
+#### 配置
+在 `Yii2` 配置文件 `config/main.php` 的 `components` 中添加:
+```php
+'components' => [
+    // ...
+    'pay' => [
+        'class' => 'Hedeqiang\PayEase\YiiPay',
+        'options' => [
+            'privateKey' => '/private.pfx',
+            'publicKey' => '//server.cer',
+            'merchantId' => '890000593',
+            'password' => '123456',
+        ],
+    ],
+    // ...
+]
+```
+
+#### 使用
+```php
+// 请求
+$results = Yii::$app->pay->getPay()->request($uri,$params);
+// 回调
+$results = Yii::$app->pay->getPay()->handleNotify();
 ```
 
 ## Project supported by JetBrains
