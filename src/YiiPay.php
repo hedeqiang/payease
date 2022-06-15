@@ -37,5 +37,4 @@ class YiiPay extends Component
 
         return static::$_pay;
     }
-
 }
