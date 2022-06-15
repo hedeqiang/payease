@@ -15,6 +15,7 @@
 - PHP >= 7.1
 - [Composer](https://getcomposer.org/) >= 2.0
 
+支持主流框架 `Laravel`、`Hyperf`、`Yii2` 快捷使用，具体使用方法请滑到底部
 
 ## Installing
 
