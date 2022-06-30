@@ -35,7 +35,7 @@ $app = new Pay([
 ]);
 ```
 
-> 本 SDK 已经处理好 hmac 签名，用户不需要传递此参数，`merchantId` 可传可不传
+> 本 SDK 已经处理好 hmac 签名，用户不需要传递此参数，`merchantId` 可传可不传,聚合宝支付时 二级子商户 必须传递 `merchantId` 代表 子商户，`partnerId` 为主商户
 
 ### 立即下单
 ```shell
