@@ -74,7 +74,7 @@ class Pay implements PayInterface
 
         $response = $this->getHttpClient()->post($this->buildEndpoint($path), [
             'headers' => $this->getHeaders($params, $encryptKey),
-            'body' => $data,
+            'body'    => $data,
         ]);
 
         $contents = json_decode($response->getBody()->getContents(), true);
@@ -118,28 +118,33 @@ class Pay implements PayInterface
         }
     }
 
+    /**
+     * @param $params
+     * @param $encryptKey
+     * @return array
+     */
     protected function getHeaders($params, $encryptKey)
     {
-        if (empty($params['requestId'])) {
-            return [
-                'Content-Type' => 'application/vnd.5upay-v3.0+json',
-                'encryptKey' => $encryptKey,
-                'merchantId' => $this->config->get('merchantId'),
-            ];
-        } else {
-            return [
-                'Content-Type' => 'application/vnd.5upay-v3.0+json',
-                'encryptKey' => $encryptKey,
-                'merchantId' => $this->config->get('merchantId'),
-                'requestId' => $params['requestId'],
-            ];
+        $headers = [
+            'merchantId'   => empty($params['merchantId']) ? $this->config->get('merchantId') : $params['merchantId'],
+            'encryptKey'   => $encryptKey,
+            'Content-Type' => 'application/vnd.5upay-v3.0+json',
+        ];
+        if (!empty($params['requestId'])) {
+            $headers['requestId'] = $params['requestId'];
         }
+        if (!empty($params['partnerId'])) {
+            $headers['partnerId'] = $params['partnerId'];
+        }
+        return $headers;
+
     }
 
     /**
      * 按照 键名 对关联数组进行升序排序：.
      *
      * @param $params
+     * @return array
      */
     protected function getArr($params): array
     {
@@ -148,7 +153,7 @@ class Pay implements PayInterface
             if (is_scalar($var) && '' !== $var) {// 如果给出的变量参数 var 是一个标量，is_scalar() 返回 TRUE，否则返回 FALSE。标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。
                 $data[$k] = $var;
             } elseif (is_object($var)) {
-                $data[$k] = array_filter((array) $var);
+                $data[$k] = array_filter((array)$var);
             } elseif (is_array($var)) {
                 $data[$k] = array_filter($var);
             }
